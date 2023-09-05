@@ -1,5 +1,6 @@
 package com.example.practice.service;
 
+import com.example.practice.UserNotFoundException;
 import com.example.practice.helper.FileUploadHelper;
 import com.example.practice.model.Resume;
 import com.example.practice.model.ResumeData;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -123,7 +125,7 @@ public class StudentServiceImpl implements StudentService {
             }
 
             if (line.toLowerCase().contains("marital status")) {
-                Matcher maritalStatusMatcher = Pattern.compile("(single|married)", Pattern.CASE_INSENSITIVE).matcher(line);
+                Matcher maritalStatusMatcher = Pattern.compile("(single|married|unmarried)", Pattern.CASE_INSENSITIVE).matcher(line);
                 if (maritalStatusMatcher.find()) {
                     maritalStatus = maritalStatusMatcher.group();
                 }
@@ -173,5 +175,15 @@ public class StudentServiceImpl implements StudentService {
         else {
             return "File upload failed.";
         }
+    }
+
+    public Resume get(Integer id) throws UserNotFoundException {
+        Optional<Resume> result = studentRepository.findById(id);
+        if(result.isPresent()){
+            return result.get();
+        }
+
+        throw new UserNotFoundException("Could not find any users with ID "+ id);
+
     }
 }
