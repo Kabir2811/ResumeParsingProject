@@ -7,6 +7,7 @@ import com.example.practice.model.ResumeData;
 import com.example.practice.repository.StudentRepository;
 import com.example.practice.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,30 +34,37 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public String addStudent(@RequestBody Resume resume){
-        studentService.saveStudent(resume);
-        return "New Student is added";
+    public ResponseEntity<Integer> addStudent(@RequestBody Resume resume){
+        Resume savedResume = studentService.saveStudent(resume);
+        Integer lastInsertedId = savedResume.getId();
+        return ResponseEntity.ok(lastInsertedId);
     }
     @GetMapping("/show")
     public List<Resume> showStudents(){
         return studentService.showStudent();
     }
 
-    @GetMapping("data/{id}")
-    public ResponseEntity<Resume> getStudentData(@PathVariable Integer id) {
-        // Fetch the student data based on the 'id'
-        Optional<Resume> studentOptional = studentRepository.findById(id);
+//    @GetMapping("data/{id}")
+//    public ResponseEntity<Integer> getStudentData(@PathVariable Integer id) {
+//        // Fetch the student data based on the 'id'
+//        Optional<Resume> studentOptional = studentRepository.findById(id);
+//
+//        if (studentOptional.isPresent()) {
+//            // Return the student's ID
+//            return ResponseEntity.ok(id);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
-        if (studentOptional.isPresent()) {
-            Resume student = studentOptional.get();
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("data/{id}")
+    public ResponseEntity<Resume> getStudentById(@PathVariable Integer id) {
+        Optional<Resume> studentOptional = studentRepository.findById(id);
+        return studentOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/parse-file")
-    public String uploadResume(@RequestParam("resumeFile") MultipartFile resumeFile) throws IOException {
+    public ResponseEntity<Integer> uploadResume(@RequestParam("resumeFile") MultipartFile resumeFile) throws IOException {
         boolean uploadres = fileUploadHelper.fileUpload(resumeFile);
         if (uploadres) {
             String filePath = "C:\\Users\\P0510857\\IdeaProjects\\practice\\src\\main\\resources\\static\\resumes\\" + resumeFile.getOriginalFilename();
@@ -70,12 +78,12 @@ public class StudentController {
             resume.setMaritalStatus(parsedData.getMaritalStatus());
             resume.setSkills(parsedData.getSkills().toString());
             studentRepository.save(resume);
-            return "form";
-        }
-        else {
-            return "File upload failed.";
-        }
 
+            // Return the ID of the newly inserted student
+            return ResponseEntity.ok(resume.getId());
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 

@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FileUpload />} />
         <Route
-          path="/student-form/:id"
+          path="/student-form/:idn"
           element={
             <StudentForm />
           }

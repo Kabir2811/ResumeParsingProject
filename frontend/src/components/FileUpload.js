@@ -42,12 +42,13 @@
 // export default FileUpload;
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 
 function FileUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
+  
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -65,12 +66,14 @@ function FileUpload() {
       .post('http://localhost:8080/student/parse-file', formData)
       .then((response) => {
         console.log('File uploaded:', response.data);
+        const idn = response.data; // Get the last inserted student ID
+        
+
+        // Use the 'lastInsertedId' for some purpose, e.g., displaying it
+        alert(`Last Inserted Student ID: ${idn}`);
 
         // Assuming the server responds with the 'id' of the uploaded file
-        const uploadedId = response.data.id; // Replace 'id' with the actual property name
-
-        // Use the 'uploadedId' to navigate to the StudentForm component
-        navigate(`/student-form/${uploadedId}`); // Use backticks for template string
+        navigate(`/student-form/${idn}`); // Use the 'idn' variable here
       })
       .catch((error) => {
         console.error('Error uploading file:', error);

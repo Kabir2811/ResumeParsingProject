@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 import { useParams } from 'react-router-dom';
 
 function StudentForm() {
-  const { id } = useParams(); // Get the 'id' from the URL
+  const { idn } = useParams(); // Get the 'id' from the URL
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,11 +13,11 @@ function StudentForm() {
     knownLanguages: '',
     skills: '',
   });
-
+  
   // Fetch student data based on the 'id' from the URL
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/student/data/10`)
+      .get(`http://localhost:8080/student/data/${idn}`) // Use ${idn} instead of {id}
       .then((response) => {
         const studentData = response.data;
         setFormData(studentData);
@@ -25,7 +25,7 @@ function StudentForm() {
       .catch((error) => {
         console.error('Error fetching student data:', error);
       });
-  }, [id]);
+  }, [idn]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -58,7 +58,7 @@ function StudentForm() {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData.name || ''}
             onChange={handleChange}
           />
         </div>
@@ -67,7 +67,7 @@ function StudentForm() {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email || ''}
             onChange={handleChange}
           />
         </div>
@@ -76,7 +76,7 @@ function StudentForm() {
           <input
             type="text"
             name="phone"
-            value={formData.phone}
+            value={formData.phone || ''}
             onChange={handleChange}
           />
         </div>
@@ -85,7 +85,7 @@ function StudentForm() {
           <input
             type="text"
             name="gender"
-            value={formData.gender}
+            value={formData.gender || ''}
             onChange={handleChange}
           />
         </div>
@@ -94,7 +94,7 @@ function StudentForm() {
           <input
             type="text"
             name="maritalStatus"
-            value={formData.maritalStatus}
+            value={formData.maritalStatus || ''}
             onChange={handleChange}
           />
         </div>
@@ -103,7 +103,7 @@ function StudentForm() {
           <input
             type="text"
             name="knownLanguages"
-            value={formData.knownLanguages}
+            value={formData.knownLanguages || ''}
             onChange={handleChange}
           />
         </div>
@@ -112,7 +112,7 @@ function StudentForm() {
           <input
             type="text"
             name="skills"
-            value={formData.skills}
+            value={formData.skills || ''}
             onChange={handleChange}
           />
         </div>
