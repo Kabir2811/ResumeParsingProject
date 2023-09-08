@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../axiosConfig';
-import { useParams } from 'react-router-dom';
-
+import { useParams, Navigate } from 'react-router-dom'; // Import Navigate
 function StudentForm() {
   const { idn } = useParams(); // Get the 'id' from the URL
   const [formData, setFormData] = useState({
@@ -13,11 +12,14 @@ function StudentForm() {
     knownLanguages: '',
     skills: '',
   });
-  
+  // eslint-disable-next-line 
+  const [isSaved, setIsSaved] = useState(false);
+  const [shouldNavigate, setShouldNavigate] = useState(false); // New state
+
   // Fetch student data based on the 'id' from the URL
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/student/data/${idn}`) // Use ${idn} instead of {id}
+      .get(`http://localhost:8080/student/data/${idn}`)
       .then((response) => {
         const studentData = response.data;
         setFormData(studentData);
@@ -41,7 +43,9 @@ function StudentForm() {
       .post(`http://localhost:8080/student/add`, formData)
       .then((response) => {
         console.log('Student data updated:', response.data);
-        // Optionally, you can redirect to another page or show a success message
+        alert('Data uploaded successfully....');
+        setIsSaved(true);
+        setShouldNavigate(true); // Set shouldNavigate to true after saving
       })
       .catch((error) => {
         console.error('Error updating student data:', error);
@@ -49,6 +53,10 @@ function StudentForm() {
       });
   };
 
+  if (shouldNavigate) {
+    return <Navigate to="/" replace />;
+  }
+  
   return (
     <div>
       <h2>Edit Student Data</h2>

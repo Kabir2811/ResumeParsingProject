@@ -70,7 +70,7 @@ function FileUpload() {
         
 
         // Use the 'lastInsertedId' for some purpose, e.g., displaying it
-        alert(`Last Inserted Student ID: ${idn}`);
+        
 
         // Assuming the server responds with the 'id' of the uploaded file
         navigate(`/student-form/${idn}`); // Use the 'idn' variable here
