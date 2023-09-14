@@ -5,6 +5,7 @@ import com.example.practice.helper.FileUploadHelper;
 import com.example.practice.model.Resume;
 import com.example.practice.model.ResumeData;
 import com.example.practice.repository.StudentRepository;
+import com.example.practice.service.ResumeService;
 import com.example.practice.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 @RequestMapping("/student")
-public class StudentController {
+public class    StudentController {
     @Autowired
     private StudentService studentService;
     private final FileUploadHelper fileUploadHelper;
@@ -56,7 +57,10 @@ public class StudentController {
 //            return ResponseEntity.notFound().build();
 //        }
 //    }
-
+    @GetMapping("/table")
+    public List<Resume> getAllResumes() {
+        return studentRepository.findAll();
+    }
     @GetMapping("data/{id}")
     public ResponseEntity<Resume> getStudentById(@PathVariable Integer id) {
         Optional<Resume> studentOptional = studentRepository.findById(id);
@@ -116,6 +120,18 @@ public class StudentController {
         } else {
             return "redirect:/student";
         }
+    }
+
+    @Autowired
+    private ResumeService resumeService;
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Resume>> getData(
+            @RequestParam(name = "skills", required = false) String skills,
+            @RequestParam(name = "gender", required = false) String gender,
+            @RequestParam(name = "knownLanguages", required = false) String knownLanguages) {
+        List<Resume> filteredData = resumeService.filterResumes(skills, gender, knownLanguages);
+        return ResponseEntity.ok(filteredData);
     }
 
 

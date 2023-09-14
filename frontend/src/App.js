@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import FileUpload from './components/FileUpload';
 import StudentForm from './components/StudentForm';
 import Appbar from './components/Appbar';
+import ResumeList from './components/ResumeList';
 
 function App() {
   return (
@@ -16,7 +17,13 @@ function App() {
             <StudentForm />
           }
         />
+      
+      
+      <Route path="/resume-list" element={<ResumeList />}/>
+            
+          
       </Routes>
+      
     </>
   );
 }
