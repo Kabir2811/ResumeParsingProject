@@ -1,12 +1,16 @@
 package com.example.practice.service;
 
 import com.example.practice.model.Resume;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -19,37 +23,54 @@ public class ResumeService {
         // Construct the base query
         StringBuilder queryString = new StringBuilder("SELECT r FROM Resume r WHERE 1=1");
 
+        // Create a map to store parameters
+        Map<String, Object> parameters = new HashMap<>();
+
         // Add conditions based on the provided filter criteria
         if (skills != null && !skills.isEmpty()) {
-            queryString.append(" AND r.skills LIKE :skills");
+            String[] skillList = skills.split(",");
+            queryString.append(" AND (");
+            for (int i = 0; i < skillList.length; i++) {
+                String paramName = "skill" + i;
+                queryString.append(" r.skills LIKE :" + paramName);
+                parameters.put(paramName, "%" + skillList[i] + "%");
+                if (i < skillList.length - 1) {
+                    queryString.append(" AND");
+                }
+            }
+            queryString.append(")");
         }
 
         if (gender != null && !gender.isEmpty()) {
             queryString.append(" AND r.gender = :gender");
+            parameters.put("gender", gender);
         }
 
         if (knownLanguages != null && !knownLanguages.isEmpty()) {
-            queryString.append(" AND r.knownLanguages LIKE :knownLanguages");
+            String[] languageList = knownLanguages.split(",");
+            queryString.append(" AND (");
+            for (int i = 0; i < languageList.length; i++) {
+                String paramName = "language" + i;
+                queryString.append(" r.knownLanguages LIKE :" + paramName);
+                parameters.put(paramName, "%" + languageList[i] + "%");
+                if (i < languageList.length - 1) {
+                    queryString.append(" OR");
+                }
+            }
+            queryString.append(")");
         }
 
         // Create a JPA query from the constructed query string
-        Query query = entityManager.createQuery(queryString.toString(), Resume.class);
+        TypedQuery<Resume> query = entityManager.createQuery(queryString.toString(), Resume.class);
 
         // Set parameter values based on the filter criteria
-        if (skills != null && !skills.isEmpty()) {
-            query.setParameter("skills", "%" + skills + "%");
-        }
-
-        if (gender != null && !gender.isEmpty()) {
-            query.setParameter("gender", gender);
-        }
-
-        if (knownLanguages != null && !knownLanguages.isEmpty()) {
-            query.setParameter("knownLanguages", "%" + knownLanguages + "%");
+        for (Map.Entry<String, Object> entry : parameters.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
         }
 
         // Execute the query and return the filtered resumes
         List<Resume> filteredResumes = query.getResultList();
         return filteredResumes;
     }
+
 }
