@@ -177,13 +177,13 @@ function StudentForm() {
         </div>
         <div className="form-group">
           <label htmlFor="skills">Skills:</label>
-          <input
-            type="text"
-            id="skills"
-            name="skills"
-            value={formData.skills ? formData.skills.replace(/\[|\]/g, '').split(', ').join(', ') : ''}
-            onChange={handleChange}
-            className="input"
+          <textarea
+              id="skills"
+              name="skills"
+              value={formData.skills ? formData.skills.replace(/\[|\]/g, '').split(', ').join(', ') : ''}
+              onChange={handleChange}
+              className="input"
+              rows="4"
           />
         </div>
         <button type="button" onClick={handleSave} className="submit-button">

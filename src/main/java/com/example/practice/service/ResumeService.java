@@ -60,6 +60,13 @@ public class ResumeService {
             queryString.append(")");
         }
 
+        // Ensure that all selected skills match by checking the count
+        if (skills != null && !skills.isEmpty()) {
+            int numSkills = skills.split(",").length;
+            queryString.append(" GROUP BY r.id HAVING COUNT(DISTINCT r.skills) = :numSkills");
+            parameters.put("numSkills", (long) numSkills);
+        }
+
         // Create a JPA query from the constructed query string
         TypedQuery<Resume> query = entityManager.createQuery(queryString.toString(), Resume.class);
 
