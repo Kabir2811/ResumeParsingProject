@@ -203,7 +203,7 @@ public class StudentServiceImpl implements StudentService {
         parsedInfo.setGender(gender);
         parsedInfo.setMaritalStatus(maritalStatus);
         parsedInfo.setKnownLanguages(knownLanguages);
-        parsedInfo.setSkills(List.of(skills.toString()));
+        parsedInfo.setSkills(List.of(skills.toString()).toString());
         return parsedInfo;
     }
 

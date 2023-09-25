@@ -9,9 +9,10 @@ public class ResumeData {
     private String gender;
     private String maritalStatus;
     private String knownLanguages;
-    private List<String> skills;
+    private String skills;
 
     // Constructors, getters, setters
+
 
     public String getName() {
         return name;
@@ -61,11 +62,11 @@ public class ResumeData {
         this.knownLanguages = knownLanguages;
     }
 
-    public List<String> getSkills() {
+    public String getSkills() {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
+    public void setSkills(String skills) {
         this.skills = skills;
     }
 }
