@@ -41,8 +41,17 @@ export default function Appbar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <MenuItem component={Link} to="/" onClick={handleClose}>
+              Resume Upload
+            </MenuItem>
             <MenuItem component={Link} to="/resume-list" onClick={handleClose}>
               Resume List
+            </MenuItem>
+            <MenuItem component={Link} to="/jdupload" onClick={handleClose}>
+              Upload JD
+            </MenuItem>
+            <MenuItem component={Link} to="/jdlist" onClick={handleClose}>
+              JD List
             </MenuItem>
             {/* Add more menu items as needed */}
           </Menu>

@@ -83,6 +83,7 @@ function FileUpload() {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
+
   };
 
   const dropzoneStyle = {
@@ -96,6 +97,7 @@ function FileUpload() {
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
+    backgroundColor:'gray'
   };
 
   const buttonStyle = {
