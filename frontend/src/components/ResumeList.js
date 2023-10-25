@@ -104,80 +104,82 @@ function ResumeList() {
                 <button onClick={handleClearFilters} className="clear-filters-button">
                     Clear All Filters
                 </button>
-                <br/>
-                <br/>
-                <label>Skills:</label>
-                <input
-                    type="search"
-                    placeholder="Search Skills"
-                    value={searchSkills}
-                    onChange={handleSearchSkillsChange}
-                />
-                <div className="skills-box">
-
-                    <ul>
-                        {filteredSkillsList.map((skill) => (
-                            <li key={skill}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        value={skill}
-                                        checked={filters.skills.includes(skill)}
-                                        onChange={handleSkillCheckboxChange}
-                                    />
-                                    {skill}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
+                <div className="filter-section">
+                    <label>Skills:</label>
+                    <input
+                        type="search"
+                        placeholder="Search Skills"
+                        value={searchSkills}
+                        onChange={handleSearchSkillsChange}
+                    />
+                    <div className="skills-box">
+                        <ul>
+                            {filteredSkillsList.map((skill) => (
+                                <li key={skill}>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value={skill}
+                                            checked={filters.skills.includes(skill)}
+                                            onChange={handleSkillCheckboxChange}
+                                        />
+                                        {skill}
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <br/>
-                <div className="right-filters">
-                    <div className="filter">
-                        <label>Gender:</label>
-                        <select name="gender" onChange={handleFilterChange}>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <br/>
-                    <div className="filter">
-                        <label>Languages :</label>
-                        <input type="text" name="knownLanguages" placeholder="Known Languages" onChange={handleFilterChange} />
-                    </div>
+                <div className="filter-section">
+                    <label>Gender:</label>
+                    <select name="gender" onChange={handleFilterChange}>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div className="filter-section">
+                    <label>Languages:</label>
+                    <input
+                        type="text"
+                        name="knownLanguages"
+                        placeholder="Known Languages"
+                        onChange={handleFilterChange}
+                    />
                 </div>
             </div>
-            <table className="table table-striped table-bordered">
-                <thead className="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Gender</th>
-                    <th>Marital Status</th>
-                    <th>Known Languages</th>
-                    <th>Skills</th>
-                    {/* Add more columns for other resume fields */}
-                </tr>
-                </thead>
-                <tbody>
-                {data.map((resume) => (
-                    <tr key={resume.id}>
-                        <td>{resume.id}</td>
-                        <td>{resume.name}</td>
-                        <td>{resume.email}</td>
-                        <td>{resume.phone}</td>
-                        <td>{resume.gender}</td>
-                        <td>{resume.maritalStatus}</td>
-                        <td>{resume.knownLanguages}</td>
-                        <td>{resume.skills.replace(/\[|\]/g, '').split(', ').join(', ')}</td>
+            <div className="table-container">
+                <table className="table table-striped table-bordered">
+                    <thead className="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Marital Status</th>
+                        <th>Known Languages</th>
+                        <th>Skills</th>
                         {/* Add more columns for other resume fields */}
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {data.map((resume) => (
+                        <tr key={resume.id}>
+                            <td>{resume.id}</td>
+                            <td>{resume.name}</td>
+                            <td>{resume.email}</td>
+                            <td>{resume.phone}</td>
+                            <td>{resume.gender}</td>
+                            <td>{resume.maritalStatus}</td>
+                            <td>{resume.knownLanguages}</td>
+                            <td>{resume.skills.replace(/\[|\]/g, '').split(', ').join(', ')}</td>
+                            {/* Add more columns for other resume fields */}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

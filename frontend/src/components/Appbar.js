@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
-
+import logoImage from './NCS-logo.png';
 export default function Appbar() {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -36,6 +36,8 @@ export default function Appbar() {
           >
             <MenuIcon />
           </IconButton>
+          <div style={{backgroundColor:"white"}}>
+          <img src={logoImage} alt="Logo" style={{ maxWidth: '125px' }} /></div>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -55,7 +57,7 @@ export default function Appbar() {
             </MenuItem>
             {/* Add more menu items as needed */}
           </Menu>
-          <Typography variant="h6" component={Link} to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Typography variant="h6" component={Link} to="/" style={{ textDecoration: 'none', color: 'inherit' , padding:"1%" }}>
             TalentLinker
           </Typography>
           

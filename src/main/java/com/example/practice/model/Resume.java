@@ -1,9 +1,6 @@
 package com.example.practice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Resume {
@@ -16,6 +13,7 @@ public class Resume {
     private String gender;
     private String maritalStatus;
     private String knownLanguages;
+    @Column(length = 10000)
     private String skills ;
 
     public String getName() {
