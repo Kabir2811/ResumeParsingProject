@@ -8,12 +8,11 @@ function ResumeList() {
     const [filters, setFilters] = useState({
         skills: [],
         gender: '',
-        knownLanguages: '',
+        knownLanguages: [],
     });
     const [searchSkills, setSearchSkills] = useState('');
-    const [showSkillsDropdown, setShowSkillsDropdown] = useState(false);
+    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-    // Define the list of all skills
     const allSkills = [
         ".net", "agile methodologies", "agile testing", "ai (artificial intelligence)", "algorithms", "android development",
         "angular", "apache kafka", "apache spark", "api design", "artificial intelligence (AI)", "automation",
@@ -51,6 +50,15 @@ function ResumeList() {
         "web development", "web security", "wildlife conservation", "wireless networks"
     ];
 
+    const knownLanguages = [
+        'English',
+        'French',
+        'German',
+        'Hindi',
+        'Marathi',
+        // Add more languages as needed
+    ];
+
     useEffect(() => {
         fetchData();
     }, [filters]);
@@ -58,7 +66,8 @@ function ResumeList() {
     const fetchData = async () => {
         try {
             const skillsQueryParam = filters.skills.join(',');
-            const response = await axios.get(`http://localhost:8080/student/filter?skills=${skillsQueryParam}&gender=${filters.gender}&knownLanguages=${filters.knownLanguages}`);
+            const languagesQueryParam = filters.knownLanguages.join(',');
+            const response = await axios.get(`http://localhost:8080/student/filter?skills=${skillsQueryParam}&gender=${filters.gender}&knownLanguages=${languagesQueryParam}`);
             setData(response.data);
         } catch (error) {
             console.error(error);
@@ -78,79 +87,46 @@ function ResumeList() {
     const handleSkillCheckboxChange = (e) => {
         const { value, checked } = e.target;
         if (checked) {
-            // Add the skill to the selected skills array
             setFilters({ ...filters, skills: [...filters.skills, value] });
         } else {
-            // Remove the skill from the selected skills array
             setFilters({ ...filters, skills: filters.skills.filter((skill) => skill !== value) });
         }
+    };
+    const handleKnownLanguagesChange = (e) => {
+        const selectedLanguages = Array.from(e.target.selectedOptions, (option) => option.value);
+        setFilters({ ...filters, knownLanguages: selectedLanguages });
+    };
+
+    const handleClearFilters = () => {
+        setFilters({
+            skills: [],
+            gender: '',
+            knownLanguages: [],
+        });
+        setSearchSkills('');
+    };
+
+    const openFilterModal = () => {
+        setIsFilterModalOpen(true);
+    };
+
+    const closeFilterModal = () => {
+        setIsFilterModalOpen(false);
     };
 
     const filteredSkillsList = allSkills.filter((skill) =>
         skill.toLowerCase().includes(searchSkills)
     );
-    const handleClearFilters = () => {
-        setFilters({
-            skills: [],
-            gender: '',
-            knownLanguages: '',
-        });
-        setSearchSkills('');
-    };
 
     return (
         <div className="container">
-            <div className="filters-container">
-                <button onClick={handleClearFilters} className="clear-filters-button">
-                    Clear All Filters
-                </button>
-                <div className="filter-section">
-                    <label>Skills:</label>
-                    <input
-                        type="search"
-                        placeholder="Search Skills"
-                        value={searchSkills}
-                        onChange={handleSearchSkillsChange}
-                    />
-                    <div className="skills-box">
-                        <ul>
-                            {filteredSkillsList.map((skill) => (
-                                <li key={skill}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            value={skill}
-                                            checked={filters.skills.includes(skill)}
-                                            onChange={handleSkillCheckboxChange}
-                                        />
-                                        {skill}
-                                    </label>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <div className="filter-section">
-                    <label>Gender:</label>
-                    <select name="gender" onChange={handleFilterChange}>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-                <div className="filter-section">
-                    <label>Languages:</label>
-                    <input
-                        type="text"
-                        name="knownLanguages"
-                        placeholder="Known Languages"
-                        onChange={handleFilterChange}
-                    />
-                </div>
-            </div>
+            <button onClick={openFilterModal} className="filter-toggle-button">
+                Filters
+            </button>
             <div className="table-container">
-                <table className="table table-striped table-bordered">
-                    <thead className="thead-dark">
+                <h2>Filtered Resumes</h2>
+                <table className="table">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -160,7 +136,6 @@ function ResumeList() {
                         <th>Marital Status</th>
                         <th>Known Languages</th>
                         <th>Skills</th>
-                        {/* Add more columns for other resume fields */}
                     </tr>
                     </thead>
                     <tbody>
@@ -174,12 +149,70 @@ function ResumeList() {
                             <td>{resume.maritalStatus}</td>
                             <td>{resume.knownLanguages}</td>
                             <td>{resume.skills.replace(/\[|\]/g, '').split(', ').join(', ')}</td>
-                            {/* Add more columns for other resume fields */}
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
+            {isFilterModalOpen && (
+                <div className="filter-modal">
+                    <div className="filter-modal-content">
+                        <button onClick={handleClearFilters} className="clear-filters-button">
+                            Clear All Filters
+                        </button>
+                        <div className="filter-section">
+                            <label>Skills:</label>
+                            <input
+                                type="search"
+                                placeholder="Search Skills"
+                                value={searchSkills}
+                                onChange={handleSearchSkillsChange}
+                            />
+                            <div className="skills-box">
+                                <ul>
+                                    {filteredSkillsList.map((skill) => (
+                                        <li key={skill}>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    value={skill}
+                                                    checked={filters.skills.includes(skill)}
+                                                    onChange={handleSkillCheckboxChange}
+                                                />
+                                                {skill}
+                                            </label>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="filter-section">
+                            <label>Gender:</label>
+                            <select name="gender" onChange={handleFilterChange}>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                            <label>Known Languages:</label>
+                            <select
+                                name="knownLanguages"
+                                multiple
+                                onChange={handleKnownLanguagesChange}
+                            >
+                                {knownLanguages.map((language) => (
+                                    <option key={language} value={language}>
+                                        {language}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <button onClick={closeFilterModal} className="close-filter-button">
+                            Close
+                        </button>
+
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
