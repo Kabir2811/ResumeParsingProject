@@ -71,7 +71,7 @@ public class    StudentController {
     public ResponseEntity<Integer> uploadResume(@RequestParam("resumeFile") MultipartFile resumeFile) throws IOException {
         boolean uploadres = fileUploadHelper.fileUpload(resumeFile);
         if (uploadres) {
-            String filePath = "C:\\Users\\P0510857\\IdeaProjects\\practice\\src\\main\\resources\\static\\resumes\\" + resumeFile.getOriginalFilename();
+            String filePath = "src\\main\\resources\\static\\resumes\\" + resumeFile.getOriginalFilename();
             ResumeData parsedData = studentService.parseResume(filePath);
             Resume resume = new Resume();
             resume.setName(parsedData.getName());

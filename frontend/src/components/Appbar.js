@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -38,6 +36,16 @@ export default function Appbar() {
           </IconButton>
           <div style={{backgroundColor:"white"}}>
           <img src={logoImage} alt="Logo" style={{ maxWidth: '125px' }} /></div>
+          <div  style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            padding: '1%',
+            paddingLeft: '37%',
+            textAlign: 'center !important', // Add !important to ensure it takes precedence
+          }}>
+            <h4>TalentLinker</h4>
+
+          </div>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -57,10 +65,8 @@ export default function Appbar() {
             </MenuItem>
             {/* Add more menu items as needed */}
           </Menu>
-          <Typography variant="h6" component={Link} to="/" style={{ textDecoration: 'none', color: 'inherit' , padding:"1%" }}>
-            TalentLinker
-          </Typography>
-          
+
+
         </Toolbar>
       </AppBar>
     </Box>

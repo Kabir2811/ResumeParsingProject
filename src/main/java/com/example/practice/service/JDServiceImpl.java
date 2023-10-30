@@ -5,8 +5,6 @@ import com.example.practice.helper.JDUploadHelper;
 import com.example.practice.model.JD;
 import com.example.practice.model.JDData;
 
-
-import com.example.practice.model.Resume;
 import com.example.practice.repository.JDRepository;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -183,7 +181,7 @@ public class JDServiceImpl implements JDService{
     public String uploadJD(MultipartFile jdfile) throws IOException {
         boolean uploadres = JDUploadHelper.fileUpload(jdfile);
         if (uploadres) {
-            String filePath = "C:\\Users\\P0510857\\IdeaProjects\\practice\\src\\main\\resources\\static\\jd\\" + jdfile.getOriginalFilename();
+            String filePath = "src\\main\\resources\\static\\jd\\" + jdfile.getOriginalFilename();
             JDData parsedData = jdService.parseJD(filePath);
             JD resume = new JD();
 

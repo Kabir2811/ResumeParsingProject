@@ -59,7 +59,7 @@ public class JDController {
     public ResponseEntity<Integer> uploadJD(@RequestParam("jdfile") MultipartFile jdfile) throws IOException {
         boolean uploadres = JDUploadHelper.fileUpload(jdfile);
         if (uploadres) {
-            String filePath = "C:\\Users\\P0510857\\IdeaProjects\\practice\\src\\main\\resources\\static\\jd\\" + jdfile.getOriginalFilename();
+            String filePath = "src\\main\\resources\\static\\jd\\" + jdfile.getOriginalFilename();
             JDData parsedData = jdService.parseJD(filePath);
             JD resume = new JD();
 

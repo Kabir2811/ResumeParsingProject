@@ -1,46 +1,3 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-
-// function FileUpload() {
-//   const [selectedFile, setSelectedFile] = useState(null);
-//   const navigate = useNavigate(); // Get the navigate function from react-router-dom
-
-//   const handleFileChange = (event) => {
-//     setSelectedFile(event.target.files[0]);
-//   };
-
-//   const handleUpload = () => {
-//     if (!selectedFile) {
-//       return; // Prevent uploading without a selected file
-//     }
-
-//     const formData = new FormData();
-//     formData.append('resumeFile', selectedFile);
-
-//     axios.post('http://localhost:8080/student/parse-file', formData)
-//       .then((response) => {
-//         console.log('File uploaded:', response.data);
-        
-//         navigate('/student-form/'); // Redirect to the StudentForm component
-//       })
-//       .catch((error) => {
-//         console.error('Error uploading file:', error);
-//         // Optionally, show an error message to the user
-//       });
-//   };
-
-//   return (
-//     <div>
-//       <h2>Upload Resume</h2>
-//       <input type="file" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
-//       <button onClick={handleUpload} disabled={!selectedFile}>Upload</button>
-//     </div>
-//   );
-// }
-
-// export default FileUpload;
-
 import React, { useState } from 'react';
 import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
@@ -87,7 +44,7 @@ function FileUpload() {
   };
 
   const dropzoneStyle = {
-    width: '300px',
+    width: '800px',
     height: '200px',
     borderWidth: '2px',
     borderColor: isDragActive ? 'green' : 'gray',
@@ -111,7 +68,9 @@ function FileUpload() {
   };
 
   return (
+
     <div style={containerStyle}>
+
       <h2>Upload Resume</h2>
       <div {...getRootProps()} style={dropzoneStyle}>
         <input {...getInputProps()} accept=".pdf,.doc,.docx" />
@@ -132,5 +91,6 @@ function FileUpload() {
 }
 
 export default FileUpload;
+
 
 
