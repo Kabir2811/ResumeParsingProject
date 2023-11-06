@@ -35,7 +35,7 @@ public class ResumeService {
                 queryString.append(" r.skills LIKE :" + paramName);
                 parameters.put(paramName, "%" + skillList[i] + "%");
                 if (i < skillList.length - 1) {
-                    queryString.append(" AND");
+                    queryString.append(" OR");
                 }
             }
             queryString.append(")");
@@ -79,5 +79,4 @@ public class ResumeService {
         List<Resume> filteredResumes = query.getResultList();
         return filteredResumes;
     }
-
 }

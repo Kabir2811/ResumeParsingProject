@@ -35,7 +35,7 @@ function ResumeList() {
         "market research", "marital status", "microsoft azure", "microservices", "microservices architecture",
         "mongodb", "mysql", "natural language processing", "neural networks", "node.js", "nosql",
         "operating systems", "opencv", "organizational development", "patent law", "performance management",
-        "performance testing", "php", "phpmyadmin", "pid", "presentation skills", "problem-solving",
+        "performance testing", "php", "phpmyadmin", "pid","power bi","presentation skills", "problem-solving",
         "product development", "product lifecycle management (PLM)", "project closure", "project coordination",
         "project execution", "project management", "project monitoring", "project planning", "public speaking",
         "python", "quality assurance", "quality management", "real-time processing", "regulatory compliance",
@@ -51,12 +51,28 @@ function ResumeList() {
     ];
 
     const knownLanguages = [
+        'Arabic',
+        'Chinese',
+        'Dutch',
         'English',
+        'Filipino',
         'French',
         'German',
+        'Greek',
         'Hindi',
+        'Indonesian',
+        'Italian',
+        'Japanese',
+        'Korean',
         'Marathi',
-        // Add more languages as needed
+        'Persian',
+        'Portuguese',
+        'Russian',
+        'Spanish',
+        'Swedish',
+        'Thai',
+        'Turkish',
+        'Vietnamese'
     ];
 
     useEffect(() => {
@@ -118,6 +134,30 @@ function ResumeList() {
         skill.toLowerCase().includes(searchSkills)
     );
 
+    const openDefaultEmailClient = (email , name) => {
+        // Encode the subject and message for inclusion in the mailto URL
+        const encodedSubject = encodeURIComponent('Notification of Shortlisting for [Job Title] Position');
+        const encodedMessage = encodeURIComponent('Dear [Applicant\'s Name],\n' +
+            '\n' +
+            'I hope this email finds you well. We wanted to reach out to you regarding your recent application for the [Job Title] position at [Company Name]. We appreciate your interest in our organization and your time and effort invested in the application process.\n' +
+            '\n' +
+            'I am pleased to inform you that your application has been carefully reviewed, and we are impressed with your qualifications and experience. After careful consideration, we are pleased to inform you that you have been shortlisted for the next stage of the selection process.\n' +
+            '\n' +'Our HR team will be in touch with you shortly to provide further instructions and schedule the upcoming steps. We encourage you to prepare for this stage and feel free to reach out if you have any questions or require additional information.\n' +
+            '\n' +
+            'Once again, congratulations on being shortlisted, and thank you for considering [Company Name] as your potential employer. We are eager to get to know you better and explore the possibility of you joining our team.\n' +
+            '\n' +
+            'We appreciate your interest in our organization and look forward to the opportunity to meet with you.\n' +
+            '\n' +
+            'Best regards,\n' +
+            '\n' +
+            '[Your Name]\n' +
+            '[Your Title]\n' +
+            '[Company Name]\n' +
+            '[Your Contact Information]');
+
+        // Use `window.open` to open the user's default email client with the specified subject and message
+        window.open(`mailto:${email}?subject=${encodedSubject}&body=${encodedMessage}`);
+    };
     return (
         <div className="container">
             <button onClick={openFilterModal} className="filter-toggle-button">
@@ -136,6 +176,7 @@ function ResumeList() {
                         <th>Marital Status</th>
                         <th>Known Languages</th>
                         <th>Skills</th>
+                        <th>Send Email</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -149,6 +190,10 @@ function ResumeList() {
                             <td>{resume.maritalStatus}</td>
                             <td>{resume.knownLanguages}</td>
                             <td>{resume.skills.replace(/\[|\]/g, '').split(', ').join(', ')}</td>
+                            <td>
+                                {/* Add a button to send email for this row */}
+                                <button onClick={() => openDefaultEmailClient(resume.email,resume.name)}>Send Email</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>

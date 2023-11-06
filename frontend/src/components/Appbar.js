@@ -34,8 +34,8 @@ export default function Appbar() {
           >
             <MenuIcon />
           </IconButton>
-          <div style={{backgroundColor:"white"}}>
-          <img src={logoImage} alt="Logo" style={{ maxWidth: '125px' }} /></div>
+          <a href={"/"}><div style={{backgroundColor:"white"}}>
+          <img src={logoImage} alt="Logo" style={{ maxWidth: '125px' }} /></div></a>
           <div  style={{
             textDecoration: 'none',
             color: 'inherit',
