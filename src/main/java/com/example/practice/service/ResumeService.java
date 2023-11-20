@@ -79,4 +79,7 @@ public class ResumeService {
         List<Resume> filteredResumes = query.getResultList();
         return filteredResumes;
     }
+
+
+
 }

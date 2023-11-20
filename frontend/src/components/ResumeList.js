@@ -158,6 +158,18 @@ function ResumeList() {
         // Use `window.open` to open the user's default email client with the specified subject and message
         window.open(`mailto:${email}?subject=${encodedSubject}&body=${encodedMessage}`);
     };
+
+    const handleArchive = async (id) => {
+        try {
+            // Call the backend API to archive the resume with the given id
+            await axios.post(`http://localhost:8080/student/${id}/archive`);
+
+            // After successful archiving, update the state to reflect the change
+            setData(prevData => prevData.filter(resume => resume.id !== id));
+        } catch (error) {
+            console.error('Error archiving resume:', error);
+        }
+    };
     return (
         <div className="container">
             <button onClick={openFilterModal} className="filter-toggle-button">
@@ -177,6 +189,7 @@ function ResumeList() {
                         <th>Known Languages</th>
                         <th>Skills</th>
                         <th>Send Email</th>
+                        <th>Mark as Sent</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -193,6 +206,9 @@ function ResumeList() {
                             <td>
                                 {/* Add a button to send email for this row */}
                                 <button onClick={() => openDefaultEmailClient(resume.email,resume.name)}>Send Email</button>
+                            </td>
+                            <td>
+                                <button onClick={() => handleArchive(resume.id)}>Archive</button>
                             </td>
                         </tr>
                     ))}

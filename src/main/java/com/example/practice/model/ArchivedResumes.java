@@ -3,9 +3,10 @@ package com.example.practice.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Resume {
+@Table(name = "archived_resumes")
+public class ArchivedResumes {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String email;
@@ -15,6 +16,8 @@ public class Resume {
     private String knownLanguages;
     @Column(length = 10000)
     private String skills ;
+
+
 
     public String getName() {
         return name;
@@ -80,30 +83,14 @@ public class Resume {
         this.skills = skills;
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Name: " + name +
-                "\nEmail: " + email +
-                "\nPhone: " + phone +
-                "\nGender: " + gender +
-                "\nMarital Status: " + maritalStatus +
-                "\nKnown Languages: " + knownLanguages +
-                "\nSkills: " + String.join(", ", skills);
-    }
-
-    public ArchivedResumes toArchivedResume() {
-        ArchivedResumes archivedResume = new ArchivedResumes();
-        archivedResume.setId(this.getId());
-        archivedResume.setName(this.getName());
-        archivedResume.setEmail(this.getEmail());
-        archivedResume.setPhone(this.getPhone());
-        archivedResume.setGender(this.getGender());
-        archivedResume.setMaritalStatus(this.getMaritalStatus());
-        archivedResume.setKnownLanguages(this.getKnownLanguages());
-        archivedResume.setSkills(this.getSkills());
-
-        return archivedResume;
+    public ArchivedResumes() {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.maritalStatus = maritalStatus;
+        this.knownLanguages = knownLanguages;
+        this.skills = skills;
     }
 }

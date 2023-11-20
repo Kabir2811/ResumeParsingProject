@@ -2,8 +2,10 @@ package com.example.practice.controller;
 
 import com.example.practice.UserNotFoundException;
 import com.example.practice.helper.FileUploadHelper;
+import com.example.practice.model.ArchivedResumes;
 import com.example.practice.model.Resume;
 import com.example.practice.model.ResumeData;
+import com.example.practice.repository.ArchivedResumesRepository;
 import com.example.practice.repository.StudentRepository;
 import com.example.practice.service.ResumeService;
 import com.example.practice.service.StudentService;
@@ -29,9 +31,10 @@ public class    StudentController {
 
     private final StudentRepository studentRepository;
 
-    public StudentController(FileUploadHelper fileUploadHelper , StudentRepository studentRepository) {
+    public StudentController(FileUploadHelper fileUploadHelper , StudentRepository studentRepository, ArchivedResumesRepository archivedResumeRepository) {
         this.fileUploadHelper = fileUploadHelper; // Initialize the dependency through constructor injection
         this.studentRepository = studentRepository;
+        this.archivedResumeRepository = archivedResumeRepository;
     }
 
     @PostMapping("/add")
@@ -133,8 +136,22 @@ public class    StudentController {
         List<Resume> filteredData = resumeService.filterResumes(skills, gender, knownLanguages);
         return ResponseEntity.ok(filteredData);
     }
+    @Autowired
+    private final ArchivedResumesRepository archivedResumeRepository;
+    @PostMapping("/{id}/archive")
+    public ResponseEntity<?> archiveResume(@PathVariable Integer id) {
+        Optional<Resume> optionalResume = studentRepository.findById(id);
 
-
+        if (optionalResume.isPresent()) {
+            Resume resume = optionalResume.get();
+            ArchivedResumes archivedResume = resume.toArchivedResume();
+            archivedResumeRepository.save(archivedResume);
+            studentRepository.delete(resume);
+            return ResponseEntity.ok("Resume archived successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 }
