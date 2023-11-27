@@ -6,7 +6,7 @@ import com.example.practice.model.JD;
 import com.example.practice.model.JDData;
 
 import com.example.practice.repository.JDRepository;
-import org.apache.pdfbox .Loader;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;

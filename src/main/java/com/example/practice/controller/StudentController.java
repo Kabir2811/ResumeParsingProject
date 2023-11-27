@@ -64,6 +64,10 @@ public class    StudentController {
     public List<Resume> getAllResumes() {
         return studentRepository.findAll();
     }
+    @GetMapping("/archivedResumes")
+    public List<ArchivedResumes> getAllArchivedResumes() {
+        return archivedResumeRepository.findAll();
+    }
     @GetMapping("data/{id}")
     public ResponseEntity<Resume> getStudentById(@PathVariable Integer id) {
         Optional<Resume> studentOptional = studentRepository.findById(id);
@@ -147,6 +151,21 @@ public class    StudentController {
             ArchivedResumes archivedResume = resume.toArchivedResume();
             archivedResumeRepository.save(archivedResume);
             studentRepository.delete(resume);
+            return ResponseEntity.ok("Resume archived successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{id}/unarchive")
+    public ResponseEntity<?> unArchiveResume(@PathVariable Integer id) {
+        Optional<ArchivedResumes> optionalResume = archivedResumeRepository.findById(id);
+
+        if (optionalResume.isPresent()) {
+            ArchivedResumes resume = optionalResume.get();
+            Resume archivedResume = resume.toResume();
+            studentRepository.save(archivedResume);
+            archivedResumeRepository.delete(resume);
             return ResponseEntity.ok("Resume archived successfully");
         } else {
             return ResponseEntity.notFound().build();

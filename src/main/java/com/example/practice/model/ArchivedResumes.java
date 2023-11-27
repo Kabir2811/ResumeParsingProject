@@ -93,4 +93,18 @@ public class ArchivedResumes {
         this.knownLanguages = knownLanguages;
         this.skills = skills;
     }
+
+    public Resume toResume() {
+        Resume archivedResume = new Resume();
+        archivedResume.setId(this.getId());
+        archivedResume.setName(this.getName());
+        archivedResume.setEmail(this.getEmail());
+        archivedResume.setPhone(this.getPhone());
+        archivedResume.setGender(this.getGender());
+        archivedResume.setMaritalStatus(this.getMaritalStatus());
+        archivedResume.setKnownLanguages(this.getKnownLanguages());
+        archivedResume.setSkills(this.getSkills());
+
+        return archivedResume;
+    }
 }

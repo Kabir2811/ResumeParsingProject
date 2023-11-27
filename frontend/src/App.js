@@ -7,6 +7,7 @@ import ResumeList from './components/ResumeList';
 import JDUpload from "./components/JDUpload";
 import JDForm from "./components/JDForm";
 import JDList from "./components/JDList";
+import ArchiveList from "./components/ArchiveList";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/jdupload" element={<JDUpload/>}/>
       <Route path="/resume-list" element={<ResumeList />}/>
             <Route path="/jdlist" element={<JDList/>}/>
+          <Route path="/archive-list" element={<ArchiveList/>}/>
           
       </Routes>
       
